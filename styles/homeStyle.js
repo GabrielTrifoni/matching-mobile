@@ -15,7 +15,6 @@ const homeStyles = StyleSheet.create({
       color: 'black', 
       fontSize: 15,
       marginBottom: 25,
-      textAlign:'justify'
     },
     titulo: {
       display: 'flex',

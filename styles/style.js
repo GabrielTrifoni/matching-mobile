@@ -6,15 +6,23 @@ const styles = StyleSheet.create({
     height: 40,
     fontSize: 32,
   },
-  container: {
+  page: {
     flex: 1,
-    justifyContent: "center",
-    justifyItems: "center",
-    color: "#F9F9F9",
     backgroundColor: "#F9F9F9",
-    // fontFamily: 'DMSans-Regular',
-    padding: 13,
+    padding: 15,
   },
+  container: {
+    marginTop: 20,
+    flex: 1,
+    justifyContent: "flex-start",
+  },
+  button: {
+    position: "absolute",
+    bottom: 20,
+    left: 0,
+    right: 0,
+    paddingHorizontal: 20,
+  }
 });
 
 export default styles;
