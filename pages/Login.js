@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, Image, TextInput, Alert } from "react-native";
+import { View, Text, Image, TextInput, Alert, TouchableOpacity } from "react-native";
 
 import loginStyles from "../styles/loginStyle";
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
@@ -13,6 +13,8 @@ const Login = ({ navigation }) => {
   const [textInputEmail, setTextInputEmail] = useState("");
   const [textInputPassword, setTextInputPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false); 
+  const [isPressed, setIsPressed] = useState(false);
+
   const toggleShowPassword = () => { 
     setShowPassword(!showPassword); 
   };
@@ -28,6 +30,10 @@ const Login = ({ navigation }) => {
         "Os campos email e senha devem ser preenchidos corretamente!"
       );
     }
+  }
+
+  function register() {
+    navigation.navigate("Register")
   }
 
   return (
@@ -62,7 +68,9 @@ const Login = ({ navigation }) => {
             onChangeText={(value) => {
               setTextInputPassword(value);
             }}
-          ></TextInput>
+          >
+            
+          </TextInput>
           <MaterialCommunityIcons 
             name={showPassword ? 'eye-off' : 'eye'} 
             size={24} 
@@ -74,6 +82,20 @@ const Login = ({ navigation }) => {
       </View>
 
       <Button buttonText={"LOGIN"} onPress={login} auth={auth} />
+      <Text style={loginStyles.registerText}>
+        Ainda não possui uma conta?{" "}
+        <Text 
+          style={[
+            loginStyles.registerLink,
+            isPressed ? loginStyles.pressedLink : null,  
+          ]}
+          onPressIn={() => setIsPressed(true)}
+          onPressOut={() => setIsPressed(false)}
+          onPress={register}
+        >
+          Cadastre-se
+        </Text>
+      </Text>
     </View>
   );
 };

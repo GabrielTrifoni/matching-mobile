@@ -46,7 +46,9 @@ const loginStyles = StyleSheet.create({
     alignItems:"center",
     justifyContent:"center",
     color: '#333',
-    backgroundColor:'white'
+    backgroundColor:'white',
+    borderRadius: 10,
+    marginBottom: 15,
   },
   inputPassword: {
     height: 70,
@@ -62,6 +64,17 @@ const loginStyles = StyleSheet.create({
   },
   buttonShowPassWord:{
     marginRight: 10,
+  },
+  registerText: {
+    textAlign: "center",
+    fontSize: 12,
+  },
+  registerLink: {
+    color: "#03A9F4",
+    fontSize: 12,
+  },
+  pressedLink: {
+    textDecorationLine: "underline",
   },
 });
 

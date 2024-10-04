@@ -7,6 +7,7 @@ import headerStyles from "../styles/headerStyle";
 import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
 import Projects from "../pages/Projects";
 import { ProjectDetails } from "../pages/ProjectDetails";
+import Register from "../pages/Register";
 
 const Stack = createStackNavigator();
 
@@ -31,6 +32,12 @@ export default function TabRoutes() {
       <Stack.Screen
         name="Login"
         component={Login}
+        options={{ header: () => null }}
+      ></Stack.Screen>
+
+      <Stack.Screen
+        name="Register"
+        component={Register}
         options={{ header: () => null }}
       ></Stack.Screen>
 
