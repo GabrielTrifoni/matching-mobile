@@ -1,6 +1,6 @@
 import React from "react";
-import { Image } from "react-native";
-
+import { Image, TouchableOpacity } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { Home, Login } from "./tabs";
 import headerStyles from "../styles/headerStyle";
@@ -8,6 +8,7 @@ import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
 import Projects from "../pages/Projects";
 import { ProjectDetails } from "../pages/ProjectDetails";
 import Register from "../pages/Register";
+import Profile from "../pages/Profile";
 
 const Stack = createStackNavigator();
 
@@ -22,6 +23,8 @@ function LogoTitle() {
 
 // (ver qual estratégia de rota será utilizada)
 export default function TabRoutes() {
+  const navigation = useNavigation();
+
   return (
     <Stack.Navigator
       screenOptions={{
@@ -47,10 +50,12 @@ export default function TabRoutes() {
         options={{
           headerTitle: (props) => <LogoTitle {...props} />,
           headerRight: () => (
-            <FontAwesomeIcon
-              name="user-circle-o"
-              style={headerStyles.usrIcon}
-            />
+            <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
+              <FontAwesomeIcon
+                name="user-circle-o"
+                style={headerStyles.usrIcon}
+              />
+            </TouchableOpacity>
           ),
         }}
       ></Stack.Screen>
@@ -65,6 +70,12 @@ export default function TabRoutes() {
         name="ProjectDetails"
         component={ProjectDetails}
         options={{ title: "", headerTitleAlign: "center" }}
+      ></Stack.Screen>
+
+      <Stack.Screen
+        name="Profile"
+        component={Profile}
+        options={{ title: "Crie seu perfil", headerTitleAlign: "center" }}
       ></Stack.Screen>
     </Stack.Navigator>
   );
