@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, Image, TextInput, Alert, TouchableOpacity } from "react-native";
+import axios from "axios";
 
 import loginStyles from "../styles/loginStyle";
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
@@ -21,14 +22,26 @@ const Login = ({ navigation }) => {
 
   function login() {
     if (textInputEmail.trim() && textInputPassword.trim()) {
-      setAuth(true);
-      setTimeout(() => {
-        navigation.replace("Home");
-      }, 2000);
+      const data = {
+        email: textInputEmail,
+        password: textInputPassword,
+      };
+
+      axios
+        .post('http://192.168.0.95:3000/auth/login', data)  //mudar url para o ip local
+        .then((response) => {
+          navigation.replace("Home");
+        })
+        .catch((error) => {
+          console.error("aaaaa", error);
+          if (error) {
+            Alert.alert('Erro', error || 'Erro no login');
+          } else {
+            Alert.alert('Erro', 'Não foi possível conectar ao servidor');
+          }
+        });
     } else {
-      Alert.alert(
-        "Os campos email e senha devem ser preenchidos corretamente!"
-      );
+      Alert.alert("Os campos email e senha devem ser preenchidos corretamente!");
     }
   }
 

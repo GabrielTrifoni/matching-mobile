@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, Image, TextInput, Alert, ScrollView } from "react-native";
+import axios from "axios";
 
 import loginStyles from "../styles/loginStyle";
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
@@ -14,6 +15,9 @@ const Register = ({ navigation }) => {
   const [textInputEmail, setTextInputEmail] = useState("");
   const [textInputPassword, setTextInputPassword] = useState("");
   const [textInputConfirmPassword, setTextInputConfirmPassword] = useState("");
+  const [textInputCpf, setTextInputCpf] = useState("");
+  const [textInputPhone, setTextInputPhone] = useState("");
+  const [textInputBio, setTextInputBio] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isPressed, setIsPressed] = useState(false);
@@ -29,19 +33,34 @@ const Register = ({ navigation }) => {
   function register() {
     if (textInputName.trim() && textInputEmail.trim() && textInputPassword.trim() && textInputConfirmPassword.trim()) {
       if(textInputPassword === textInputConfirmPassword) {
-        setAuth(true);
-        setTimeout(() => {
-          navigation.replace("Login");
-        }, 2000);
+        const data = {
+          fullname: textInputName,
+          email: textInputEmail,
+          password: textInputPassword,
+          cpf: textInputCpf,
+          phone: textInputPhone,
+          bio: textInputBio,
+        };
+  
+        axios
+          .post('http://192.168.0.95:3000/users', data)  //mudar url para o ip local
+          .then((response) => {
+            Alert.alert('Sucesso', 'Usuário cadastrado com sucesso!');
+            navigation.replace("Login");
+          })
+          .catch((error) => {
+            console.error(error);
+            if (error.response && error.response.data) {
+              Alert.alert('Erro', error || 'Erro no cadastro');
+            } else {
+              Alert.alert('Erro', 'Não foi possível conectar ao servidor');
+            }
+          });
       } else {
-        Alert.alert(
-          "As senhas não coincidem!"
-        );
-    }
+        Alert.alert('Erro', 'As senhas não coincidem!');
+      }
     } else {
-      Alert.alert(
-        "Os campos email e senha devem ser preenchidos corretamente!"
-      );
+      Alert.alert('Erro', 'Todos os campos devem ser preenchidos corretamente!');
     }
   }
 
@@ -123,6 +142,36 @@ const Register = ({ navigation }) => {
             onPress={toggleShowConfirmPassword} 
             />
         </View> 
+
+        <Text style={loginStyles.inputLabel}>CPF</Text>
+          <TextInput
+            placeholder="Digite seu CPF"
+            placeholderTextColor="rgba(13, 1, 64, 0.6)"
+            style={loginStyles.input}
+            onChangeText={(value) => {
+              setTextInputCpf(value);
+            }}
+          ></TextInput>
+
+        <Text style={loginStyles.inputLabel}>Telefone</Text>
+          <TextInput
+            placeholder="Digite seu telefone"
+            placeholderTextColor="rgba(13, 1, 64, 0.6)"
+            style={loginStyles.input}
+            onChangeText={(value) => {
+              setTextInputPhone(value);
+            }}
+          ></TextInput>
+
+        <Text style={loginStyles.inputLabel}>Bio</Text>
+          <TextInput
+            placeholder="Informe sua bio"
+            placeholderTextColor="rgba(13, 1, 64, 0.6)"
+            style={loginStyles.input}
+            onChangeText={(value) => {
+              setTextInputBio(value);
+            }}
+          ></TextInput>
       </View>
 
       <Button buttonText={"CADASTRAR"} onPress={register} auth={auth} />
