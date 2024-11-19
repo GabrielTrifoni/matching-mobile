@@ -43,7 +43,7 @@ const Register = ({ navigation }) => {
         };
   
         axios
-          .post('http://192.168.0.95:3000/users', data)  //mudar url para o ip local
+          .post('http://192.168.15.3:3000/users', data)  //mudar url para o ip local
           .then((response) => {
             Alert.alert('Sucesso', 'Usuário cadastrado com sucesso!');
             navigation.replace("Login");

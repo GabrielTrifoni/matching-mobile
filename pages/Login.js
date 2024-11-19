@@ -28,7 +28,7 @@ const Login = ({ navigation }) => {
       };
 
       axios
-        .post('http://192.168.0.95:3000/auth/login', data)  //mudar url para o ip local
+        .post('http://192.168.15.3:3000/auth/login', data)  //mudar url para o ip local
         .then((response) => {
           navigation.replace("Home");
         })

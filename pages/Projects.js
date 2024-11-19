@@ -1,71 +1,70 @@
-import { View } from "react-native";
-import { FlatList } from "react-native-gesture-handler";
+import React, { useEffect, useState } from "react";
+import { View, Alert, FlatList } from "react-native";
+import axios from "axios";
 import { Card } from "../components/Card";
 import projectsStyles from "../styles/projectsStyle";
-
-const data = [
-  {
-    key: "Projeto1",
-    title: "Projeto 1",
-    location: "UNESP - Rio Claro",
-    tags: ["Desktop", "Native", "Front-End"],
-    coordinator: "Coordenador 1",
-  },
-  {
-    key: "Projeto2",
-    title: "Projeto 2",
-    location: "UNESP - Rio Claro",
-    tags: ["tag2", "tag2", "tag3"],
-    coordinator: "Coordenador 2",
-  },
-  {
-    key: "Projeto3",
-    title: "Projeto 3",
-    location: "UNESP - Rio Claro",
-    tags: ["tag1", "tag2", "tag3"],
-    coordinator: "Coordenador 3",
-  },
-  {
-    key: "Projeto4",
-    title: "Projeto 3",
-    location: "UNESP - Rio Claro",
-    tags: ["tag1", "tag2", "tag3"],
-    coordinator: "Coordenador 3",
-  },
-  {
-    key: "Projeto5",
-    title: "Projeto 3",
-    location: "UNESP - Rio Claro",
-    tags: ["tag1", "tag2", "tag3"],
-    coordinator: "Coordenador 3",
-  },
-];
+import { Text } from "react-native";
 
 const Projects = ({ navigation }) => {
-  const onCardPress = ({ projectId }) => {
-    navigation.navigate("ProjectDetails", {
-      projectId,
-    });
+  const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Função para buscar os projetos
+    const fetchProjects = async () => {
+      try {
+        const response = await axios.get("http://192.168.15.3:3000/projects?page=1&size=10");
+        if (response.status === 200) {
+          const items = response.data.payload.items || [];
+          setProjects(items);
+          console.log("Projetos retornados com sucesso:", items);
+        } else {
+          Alert.alert("Erro", "Falha ao recuperar projetos.");
+        }
+      } catch (error) {
+        console.error(error);
+        Alert.alert(
+          "Erro",
+          error.response?.data?.message || "Não foi possível conectar ao servidor"
+        );
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProjects();
+  }, []);
+
+  const onCardPress = (projectId) => {
+    navigation.navigate("ProjectDetails", { projectId });
   };
+
+  if (loading) {
+    return (
+      <View style={projectsStyles.loadingContainer}>
+        <Text>Carregando...</Text>
+      </View>
+    );
+  }
 
   return (
     <View style={projectsStyles.container}>
       <FlatList
-        data={data}
-        scrollEnabled={true}
-        style={{ marginTop: 20 }}
+        data={projects}
+        keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
           <Card
-            key={item.key}
-            id={item.key}
-            coordinator={item.coordinator}
-            location={item.location}
-            tags={item.tags}
+            id={item.id}
             title={item.title}
-            onPress={onCardPress}
+            coordinator={item.supervisor.fullname || "Sem coordenador"}
+            location={item.location || "Local não informado"}
+            tags={item.subjects?.map((i) => i.subject.subject) || []}
+            imageUrl={item.attachment?.url || null}
+            onPress={() => onCardPress(item.id)}
           />
         )}
-      ></FlatList>
+        style={{ marginTop: 20 }}
+      />
     </View>
   );
 };
