@@ -81,4 +81,14 @@ export const projectDetailsStyle = StyleSheet.create({
   description: {
     marginBottom: 10,
   },
+
+  attachment: {
+    width: "100%",
+    height: 200,
+    resizeMode: "cover",
+    marginTop: 20,
+    borderRadius: 15,
+    marginBottom: 20,
+    borderWidth: 2,
+  }
 });

@@ -26,10 +26,10 @@ const Login = ({ navigation }) => {
         email: textInputEmail,
         password: textInputPassword,
       };
-
+      
       axios
-        .post('http://192.168.15.3:3000/auth/login', data)  //mudar url para o ip local
-        .then((response) => {
+      .post('http://192.168.0.21:3000/auth/login', data)  //mudar url para o ip local
+      .then((response) => {
           navigation.replace("Home");
         })
         .catch((error) => {

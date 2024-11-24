@@ -13,11 +13,11 @@ const Projects = ({ navigation }) => {
     // Função para buscar os projetos
     const fetchProjects = async () => {
       try {
-        const response = await axios.get("http://192.168.15.3:3000/projects?page=1&size=10");
+        const response = await axios.get("http://192.168.0.21:3000/projects?page=1&size=10"); // mudar url para ip local
         if (response.status === 200) {
           const items = response.data.payload.items || [];
           setProjects(items);
-          console.log("Projetos retornados com sucesso:", items);
+          // console.log("Projetos retornados com sucesso:", items);
         } else {
           Alert.alert("Erro", "Falha ao recuperar projetos.");
         }
@@ -56,8 +56,8 @@ const Projects = ({ navigation }) => {
           <Card
             id={item.id}
             title={item.title}
-            coordinator={item.supervisor.fullname || "Sem coordenador"}
-            location={item.location || "Local não informado"}
+            coordinator={item.supervisor?.fullname || "Sem coordenador"}
+            location={item.location || "Unesp - Rio Claro"}
             tags={item.subjects?.map((i) => i.subject.subject) || []}
             imageUrl={item.attachment?.url || null}
             onPress={() => onCardPress(item.id)}

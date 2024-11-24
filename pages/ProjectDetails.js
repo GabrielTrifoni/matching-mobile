@@ -1,59 +1,63 @@
 import { useEffect, useState } from "react";
-import { Button, Text, View } from "react-native";
+import { Button, Text, View, Image, ScrollView } from "react-native";
 import { projectDetailsStyle } from "../styles/projectDetailsStyle";
 import { Tag } from "../components/Tag";
+import axios from "axios";
 
 import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
 import ReadMore from "@fawazahmed/react-native-read-more";
-
-const data = {
-  id: "Projeto1",
-  title: "Projeto 1",
-  location: "UNESP - Rio Claro",
-  tags: ["Desktop", "Native", "Front-End"],
-  coordinator: "Coordenador 1",
-  url: "https://www.google.com",
-  hashtags: ["#natureza", "#tecnologia", "#computação", "..."],
-  description:
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-  motivation:
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-  video_url: "https://www.youtube.com/watch?v=KjY2rPxLrUg",
-};
 
 export const ProjectDetails = ({ route, navigation }) => {
   const { projectId } = route.params;
 
   const [project, setProject] = useState({});
+
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // TODO: fetch project details from firebase
-    setTimeout(() => {
-      setProject(data);
-      setLoading(false);
-    }, 1000);
-  });
+    const fetchProjectDetails = async () => {
+      try {
+        const response = await axios.get(`http://192.168.0.21:3000/projects/${projectId}`);
+        if (response.status === 200) {
+          setProject(response.data.payload);
+        } else {
+          Alert.alert("Erro", "Não foi possível carregar os detalhes do projeto.");
+        }
+      } catch (error) {
+        console.error(error);
+        Alert.alert("Erro", "Falha ao conectar ao servidor.");
+      } finally {
+        setLoading(false);
+      }
+    };
+  
+    fetchProjectDetails();
+  }, [projectId]);
+
+  const uniqueKnowledge = [
+    ...new Set(project.subjects?.map((subject) => subject.subject?.knowledge)),
+  ];
 
   const Tags = () => (
     <View style={projectDetailsStyle.tagsList}>
-      {project.tags.map((tag, index) => (
-        <Tag key={index} tag={tag} />
+      {uniqueKnowledge?.map((knowledge, index) => (
+        <Tag key={index} tag={knowledge} />
       ))}
     </View>
   );
 
   const HashTags = () => (
     <View style={projectDetailsStyle.hashtagContainer}>
-      {project.hashtags.map((hashtag, index) => (
+      {project.subjects?.map((subject, index) => (
         <Text key={index} style={projectDetailsStyle.hashtag}>
-          {hashtag}
+          #{subject.subject?.subject}
         </Text>
       ))}
     </View>
   );
 
   return (
+    <ScrollView>
     <View>
       {loading ? (
         <Text>Carregando...</Text>
@@ -79,7 +83,7 @@ export const ProjectDetails = ({ route, navigation }) => {
             <HashTags />
 
             <View style={projectDetailsStyle.descriptionContainer}>
-              <Text style={projectDetailsStyle.descriptionTitle}>Sobre .</Text>
+              <Text style={projectDetailsStyle.descriptionTitle}>Sobre</Text>
               <ReadMore
                 numberOfLines={4}
                 style={projectDetailsStyle.description}
@@ -92,7 +96,7 @@ export const ProjectDetails = ({ route, navigation }) => {
               </ReadMore>
 
               <Text style={projectDetailsStyle.descriptionTitle}>
-                Motivação do projeto .
+                Motivação do projeto
               </Text>
               <ReadMore
                 numberOfLines={4}
@@ -105,9 +109,14 @@ export const ProjectDetails = ({ route, navigation }) => {
                 {project.motivation}
               </ReadMore>
             </View>
-          </View>
+            <Image
+              source={{ uri: project.attachment.url }}
+              style={projectDetailsStyle.attachment}
+              />
+            </View>
         </View>
       )}
     </View>
+  </ScrollView>
   );
 };
