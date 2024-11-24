@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Button, Text, View, Image, ScrollView } from "react-native";
 import { projectDetailsStyle } from "../styles/projectDetailsStyle";
 import { Tag } from "../components/Tag";
+import Loading from "../components/loading";
 import axios from "axios";
 
 import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
@@ -57,10 +58,10 @@ export const ProjectDetails = ({ route, navigation }) => {
   );
 
   return (
-    <ScrollView>
-    <View>
+    <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+    <View style={{ flex: 1 }}>
       {loading ? (
-        <Text>Carregando...</Text>
+        <Loading />
       ) : (
         <View style={projectDetailsStyle.container}>
           <View style={projectDetailsStyle.header}>

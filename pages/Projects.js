@@ -4,6 +4,7 @@ import axios from "axios";
 import { Card } from "../components/Card";
 import projectsStyles from "../styles/projectsStyle";
 import { Text } from "react-native";
+import Loading from "../components/loading";
 
 const Projects = ({ navigation }) => {
   const [projects, setProjects] = useState([]);
@@ -41,9 +42,7 @@ const Projects = ({ navigation }) => {
 
   if (loading) {
     return (
-      <View style={projectsStyles.loadingContainer}>
-        <Text>Carregando...</Text>
-      </View>
+      <Loading />
     );
   }
 
