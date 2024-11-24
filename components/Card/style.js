@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native";
 
 const cardStyles = StyleSheet.create({
   container: {
-    height: 200,
+    flex: 1,
     backgroundColor: "#fff",
     borderRadius: 20,
     marginHorizontal: 20,
@@ -31,6 +31,7 @@ const cardStyles = StyleSheet.create({
     marginTop: 20,
     alignItems: "center",
     gap: 10,
+    flexWrap: "wrap",
   },
 
   bottom: {

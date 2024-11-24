@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, Text, View, Image, ScrollView } from "react-native";
+import { Button, Text, View, Image, ScrollView, TouchableOpacity, Alert } from "react-native";
 import { projectDetailsStyle } from "../styles/projectDetailsStyle";
 import { Tag } from "../components/Tag";
 import Loading from "../components/loading";
@@ -57,6 +57,10 @@ export const ProjectDetails = ({ route, navigation }) => {
     </View>
   );
 
+  const handleOpenWebsite = () => {
+    Alert.alert("Função em desenvolvimento", "Essa funcionalidade será implementada futuramente pois o website ainda não está no ar.");
+  };
+
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
     <View style={{ flex: 1 }}>
@@ -71,7 +75,7 @@ export const ProjectDetails = ({ route, navigation }) => {
           </View>
 
           <View style={{ paddingHorizontal: 20, paddingTop: 15 }}>
-            <View style={projectDetailsStyle.urlButton}>
+            <TouchableOpacity style={projectDetailsStyle.urlButton} onPress={handleOpenWebsite}>
               <FontAwesomeIcon
                 name="external-link"
                 style={projectDetailsStyle.urlButtonText}
@@ -79,7 +83,7 @@ export const ProjectDetails = ({ route, navigation }) => {
               <Text style={projectDetailsStyle.urlButtonText}>
                 Abrir website
               </Text>
-            </View>
+            </TouchableOpacity>
 
             <HashTags />
 
