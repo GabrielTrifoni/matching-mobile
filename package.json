@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@expo/vector-icons": "^14.0.2",
-    "@fawazahmed/react-native-read-more": "^3.0.3",
+    "@fawazahmed/react-native-read-more": "^3.0.4",
     "@react-native-community/checkbox": "^0.5.17",
     "@react-navigation/bottom-tabs": "^6.5.11",
     "@react-navigation/native": "^6.1.9",

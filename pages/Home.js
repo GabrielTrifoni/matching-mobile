@@ -14,7 +14,7 @@ const Home = ({ navigation }) => {
         {/* <Header /> */}
 
         {/* Conteúdo da tela */}
-        <View style={styles.container}>
+        <View style={homeStyles.container}>
           <Text style={homeStyles.titulo}>
             O que é a extensão?
           </Text>

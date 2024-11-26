@@ -14,7 +14,7 @@ const Projects = ({ navigation }) => {
     // Função para buscar os projetos
     const fetchProjects = async () => {
       try {
-        const response = await axios.get("http://192.168.0.21:3000/projects?page=1&size=10"); // mudar url para ip local
+        const response = await axios.get("http://192.168.0.21:3000/projects?page=1&size=10&status=approved"); // mudar url para ip local
         if (response.status === 200) {
           const items = response.data.payload.items || [];
           setProjects(items);

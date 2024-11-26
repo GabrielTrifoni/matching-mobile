@@ -94,8 +94,8 @@ export const ProjectDetails = ({ route, navigation }) => {
                 style={projectDetailsStyle.description}
                 seeMoreText="Ver mais"
                 seeLessText="Ver menos"
-                seeLessStyle={{ color: "#FF9228" }}
-                seeMoreStyle={{ color: "#FF9228" }}
+                seeLessStyle={{ color: "#03A9F4" }}
+                seeMoreStyle={{ color: "#03A9F4" }}
               >
                 {project.description}
               </ReadMore>
