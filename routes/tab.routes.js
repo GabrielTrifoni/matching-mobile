@@ -9,6 +9,7 @@ import Projects from "../pages/Projects";
 import { ProjectDetails } from "../pages/ProjectDetails";
 import Register from "../pages/Register";
 import Profile from "../pages/Profile";
+import LogoutButton from "../components/logoutButton";
 
 const Stack = createStackNavigator();
 
@@ -21,7 +22,6 @@ function LogoTitle() {
   );
 }
 
-// (ver qual estratégia de rota será utilizada)
 export default function TabRoutes() {
   const navigation = useNavigation();
 
@@ -75,7 +75,11 @@ export default function TabRoutes() {
       <Stack.Screen
         name="Profile"
         component={Profile}
-        options={{ title: "Crie seu perfil", headerTitleAlign: "center" }}
+        options={{
+          title: "Perfil",
+          headerTitleAlign: "center",
+          headerRight: () => <LogoutButton />
+        }}
       ></Stack.Screen>
     </Stack.Navigator>
   );

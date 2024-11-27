@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, Image, TextInput, Alert, TouchableOpacity } from "react-native";
 import axios from "axios";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import loginStyles from "../styles/loginStyle";
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
@@ -29,7 +30,13 @@ const Login = ({ navigation }) => {
       
       axios
       .post('http://192.168.0.21:3000/auth/login', data)  //mudar url para o ip local
-      .then((response) => {
+      .then(async (response) => {
+          const { access_token } = response.data;
+          try {
+            await AsyncStorage.setItem('userToken', access_token);
+          } catch (e) {
+            console.error(e);
+          }
           navigation.replace("Home");
         })
         .catch((error) => {

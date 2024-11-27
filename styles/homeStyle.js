@@ -4,9 +4,7 @@ const homeStyles = StyleSheet.create({
     container: {
       flex: 1,
       color: '#F9F9F9',
-      fontFamily: 'Arial',
       padding: 15,
-      // marginHorizontal: 20,
     },
     
     texto: { 
@@ -20,7 +18,6 @@ const homeStyles = StyleSheet.create({
       color: '#000000', 
       fontSize: 20,
       fontWeight: '700',
-      // textAlign: 'center',
     }
   });
 
